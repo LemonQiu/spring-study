@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--  使用property，调用的是setter方法进行赋值，setter方法名称必须是set + 属性名称，首字母大写  -->
+    <bean id="person1" class="org.example.bean.Person">
+        <property name="age" value="15"/>
+        <property name="gender" value="1"/>
+        <property name="name" value="张三"/>
+        <property name="idCard" value="340811199546661887"/>
+    </bean>
+
+    <!--  使用constructor-arg，调用的是类的有参构造方法进行赋值  -->
+    <bean id="person2" class="org.example.bean.Person">
+        <constructor-arg name="age" value="12" />
+        <constructor-arg name="name" value="李四" />
+        <constructor-arg name="gender" value="0" />
+        <constructor-arg name="idCard" value="340811199546661888" />
+    </bean>
+
+    <!--  使用constructor-arg，可以将name属性忽略不写，但是要保证顺序  -->
+    <bean id="person3" class="org.example.bean.Person">
+        <constructor-arg value="李四" />
+        <constructor-arg value="12" />
+        <constructor-arg value="340811199546661888" />
+        <constructor-arg value="0" />
+    </bean>
+
+    <!--  使用constructor-arg，如果不想保证顺序，那么可以使用index的方式  -->
+    <bean id="person4" class="org.example.bean.Person">
+        <constructor-arg index="1" value="12" />
+        <constructor-arg index="0" value="李四" />
+        <constructor-arg index="3" value="0" />
+        <constructor-arg index="2" value="340811199546661888" />
+    </bean>
+
+</beans>

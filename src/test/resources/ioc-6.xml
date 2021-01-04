@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        可以指定bean的作用域
+            默认  singleton：单例模式，IOC永远返回同一个对象，在IOC创建完成之前就已经创建好了
+                  prototype：多例模式，每次都会创建一个对象返回，每次用的时候才会创建
+                  request：每有一个请求创建一个对象
+                  session：没有一个会话创建一个对象
+    -->
+    <bean id="person" class="org.example.bean.Person"  scope="prototype"/>
+
+</beans>

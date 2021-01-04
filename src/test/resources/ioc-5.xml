@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        默认情况下，按照xml中定义bean的前后来顺序创建对象的
+        但是可以通过depends-on属性来控制顺序
+        同时也可以通过abstract来表示该类是一个抽象类，无法实例化
+    -->
+    <bean id="person" class="org.example.bean.Person" depends-on="address" abstract="true"/>
+    <bean id="address" class="org.example.bean.Address">
+        <property name="province" value="安徽"></property>
+        <property name="city" value="安庆"></property>
+        <property name="town" value="龙狮乡"></property>
+    </bean>
+</beans>

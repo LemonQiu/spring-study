@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 不指定scope的情况下，默认是单例的，且对象在容器创建完成的时候就已经创建了，不是在使用的时候才创建 -->
+    <bean id="person1" class="org.example.bean.Person">
+        <property name="age" value="15"/>
+        <property name="gender" value="1"/>
+        <property name="name" value="张三"/>
+        <property name="idCard" value="340811199546661887"/>
+    </bean>
+    <bean id="person2" class="org.example.bean.Person">
+        <property name="age" value="15"/>
+        <property name="gender" value="1"/>
+        <property name="name" value="张三"/>
+        <property name="idCard" value="340811199546661887"/>
+    </bean>
+</beans>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 复杂属性的赋值操作 -->
+    <bean id="person" class="org.example.bean.Person2">
+        <property name="gender" value="1" />
+        <property name="idCard" value="3408443155648899" />
+        <property name="age" value="18" />
+        <property name="name" value="wangwu" />
+        <!-- 给List赋值 -->
+        <property name="list">
+            <array>
+                <ref bean="address" />
+                <bean class="org.example.bean.Address">
+                    <property name="province" value="河北" />
+                </bean>
+            </array>
+        </property>
+        <!-- 给Set赋值 -->
+        <property name="set">
+            <set>
+                <value>zhanshan</value>
+                <value>zhanshan</value>
+                <value>ssaa</value>
+            </set>
+        </property>
+        <!-- 给Map进行赋值 -->
+        <property name="map">
+            <map>
+                <entry>
+                    <key>
+                        <value>abc</value>
+                    </key>
+                    <value>
+                        123456
+                    </value>
+                </entry>
+                <entry key="add" value="231" />
+                <entry key="address">
+                    <ref bean="address"></ref>
+                </entry>
+                <entry key="address">
+                    <bean class="org.example.bean.Address">
+                        <property name="province" value="北京" />
+                    </bean>
+                </entry>
+                <entry key="list">
+                    <list>
+                        <array>
+                            <value>12456</value>
+                            <value>12451</value>
+                            <value>1241</value>
+                        </array>
+                    </list>
+                </entry>
+            </map>
+        </property>
+        <!--    给引用赋值    -->
+        <property name="address" ref="address" />
+        <!--    给数组赋值    -->
+<!--        <property name="loves" value="123,444,456"></property>-->
+        <property name="loves">
+            <array>
+                <value>789798</value>
+                <value>789798</value>
+                <value>789798</value>
+            </array>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="123456">sadasd</prop>
+                <prop key="1234">sada23</prop>
+                <prop key="12345">sasadasdasd</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="address" class="org.example.bean.Address">
+        <property name="province" value="安徽"></property>
+        <property name="city" value="安庆"></property>
+        <property name="town" value="龙狮乡"></property>
+    </bean>
+</beans>
