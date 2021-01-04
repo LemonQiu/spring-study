@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        可以使用静态工厂和实例工厂来创建对象
+        静态工厂：通过类目.静态方法来创建对象
+        实例工厂：需要工厂类的实例，然后调用方法来创建对象
+    -->
+
+    <!--  静态工厂的方式来创建bean  -->
+    <bean id="person" class="org.example.factory.PersonStaticFactory" factory-method="getInstance" />
+
+    <!--  实例工厂的方式来创建bean  -->
+    <bean id="personStaticFactory" class="org.example.factory.PersonInstanceFactory" />
+    <bean id="person2" factory-bean="personStaticFactory" factory-method="getInstance" />
+</beans>
