@@ -1,10 +1,14 @@
 package org.example;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidPooledConnection;
 import org.example.bean.Person;
 import org.example.bean.Person2;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.sql.SQLException;
 
 /**
  * Unit test for simple App.
@@ -114,6 +118,98 @@ public class AppTest {
         Person person2 = applicationContext.getBean("person2", Person.class);
         System.out.println(person1);
         System.out.println(person2);
+    }
+
+    /**
+     * 通过FactoryBean的实现类来创建对象
+     */
+    @Test
+    public void testFactoryBean() {
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("ioc-8.xml");
+        Person person = applicationContext.getBean("personFactoryBean", Person.class);
+        System.out.println(person);
+    }
+
+    /**
+     * bean的初始化方法和销毁方法
+     */
+    @Test
+    public void testBeanInitAndDestroy() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("ioc-9.xml");
+        Person person = applicationContext.getBean("person", Person.class);
+        System.out.println(person);
+        // 只有在关闭了容器的时候，才会调用destroy方法
+        // 但是如果bean的scope域是prototype，则不会调用
+        applicationContext.close();
+    }
+
+    /**
+     * 前置处理器和后置处理器
+     */
+    @Test
+    public void testBeanPostProcessor() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("ioc-10.xml");
+        Person person = applicationContext.getBean("person", Person.class);
+        System.out.println(person);
+        // 只有在关闭了容器的时候，才会调用destroy方法
+        // 但是如果bean的scope域是prototype，则不会调用
+        applicationContext.close();
+    }
+
+    /**
+     * spring管理第三方bean
+     */
+    @Test
+    public void testOtherBean() throws SQLException {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("ioc-11.xml");
+        DruidDataSource druidDataSource = applicationContext.getBean("dataSource", DruidDataSource.class);
+        DruidPooledConnection connection = druidDataSource.getConnection();
+        System.out.println(connection);
+        connection.close();
+    }
+
+    /**
+     * spring管理第三方bean
+     * 可以使用配置的方式管理数据源
+     */
+    @Test
+    public void testOtherBean2() throws SQLException {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("ioc-12.xml");
+        DruidDataSource druidDataSource = applicationContext.getBean("dataSource", DruidDataSource.class);
+        DruidPooledConnection connection = druidDataSource.getConnection();
+        System.out.println(connection);
+        connection.close();
+    }
+
+    /**
+     *  使用自动装配来自动导入bean的依赖
+     *     default/no：不使用自动装配
+     *     byName：根据名称来进行自动装配，需要setter方法的名称与依赖的bean的id一致才可以
+     *     byType：根据类型来进行自动装配，如果有多个，则会报错
+     *     constructor：需要只含有依赖bean的有参构造，先根据类型自动装配，如果有多个，则根据名称进行自动装配
+     */
+    @Test
+    public void testAutowire() throws SQLException {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("ioc-13.xml");
+        Person2 person1 = applicationContext.getBean("person1", Person2.class);
+        System.out.println("default: " + person1);
+        System.out.println("-----------------------------------------------------------");
+
+        Person2 person2 = applicationContext.getBean("person2", Person2.class);
+        System.out.println("no: " + person2);
+        System.out.println("-----------------------------------------------------------");
+
+        Person2 person3 = applicationContext.getBean("person3", Person2.class);
+        System.out.println("byName: " + person3);
+        System.out.println("-----------------------------------------------------------");
+
+        Person2 person4 = applicationContext.getBean("person4", Person2.class);
+        System.out.println("byType: " + person4);
+        System.out.println("-----------------------------------------------------------");
+
+        Person2 person5 = applicationContext.getBean("person5", Person2.class);
+        System.out.println("constructor: " + person5);
+        System.out.println("-----------------------------------------------------------");
     }
 
 }

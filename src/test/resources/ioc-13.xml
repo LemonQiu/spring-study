@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--
+        使用自动装配来自动导入bean的依赖
+            default/no：不使用自动装配
+            byName：根据名称来进行自动装配，需要setter方法的名称与依赖的bean的id一致才可以
+            byType：根据类型来进行自动装配，如果有多个，则会报错
+            constructor：需要只含有依赖bean的有参构造，先根据类型自动装配，如果有多个，则根据名称进行自动装配
+    -->
+
+    <bean id="address" class="org.example.bean.Address">
+        <property name="province" value="安徽" />
+        <property name="city" value="安庆" />
+        <property name="town" value="龙狮乡" />
+    </bean>
+
+    <!--  default  -->
+    <bean id="person1" class="org.example.bean.Person2" autowire="default"></bean>
+    <!--  no  -->
+    <bean id="person2" class="org.example.bean.Person2" autowire="no"></bean>
+    <!--  byName  -->
+    <bean id="person3" class="org.example.bean.Person2" autowire="byName"></bean>
+    <!--  byType  -->
+    <bean id="person4" class="org.example.bean.Person2" autowire="byType"></bean>
+    <!--  constructor  -->
+    <bean id="person5" class="org.example.bean.Person2" autowire="constructor"></bean>
+
+</beans>

@@ -34,7 +34,15 @@ public class Person {
 
     public Person() {
         super();
-        System.out.println("Person is create");
+        System.out.println("Person is create......");
+    }
+
+    public void init() {
+        System.out.println("Person is init......");
+    }
+
+    public void destroy() {
+        System.out.println("Person is destroy......");
     }
 
     public Person(String name, Integer age, String idCard, Integer gender) {

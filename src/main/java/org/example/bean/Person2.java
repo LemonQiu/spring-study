@@ -48,4 +48,11 @@ public class Person2 {
     private Address address;
 
     private Properties properties;
+
+    public Person2() {
+    }
+
+    public Person2(Address address) {
+        this.address = address;
+    }
 }

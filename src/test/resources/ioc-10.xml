@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        定义bean的初始化方法和销毁方法
+            singleton
+                在bean已经创建完成之后，调用init方法
+                在容器关闭的时候，调用destroy方法
+            prototype
+                在bean已经创建完成之后，调用init方法
+                不会调用destroy方法
+
+        前置、后置处理器，在init方法前后调用，增强方法
+    -->
+
+    <!--  FactoryBean的实现类创建bean  -->
+    <bean id="person" class="org.example.bean.Person" init-method="init" destroy-method="destroy"/>
+    <bean id="myBeanPostProcessor" class="org.example.processor.MyBeanPostProcessor" />
+</beans>
