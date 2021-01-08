@@ -12,4 +12,7 @@
 
     <!--  开启包扫描  -->
     <context:component-scan base-package="org.example" />
+
+    <!--  开启AOP  -->
+    <aop:aspectj-autoproxy />
 </beans>

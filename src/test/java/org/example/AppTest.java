@@ -4,6 +4,9 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidPooledConnection;
 import org.example.bean.Person;
 import org.example.bean.Person2;
+import org.example.proxy.ProxyFactory;
+import org.example.service.CalculateService;
+import org.example.service.impl.CalculateServiceImpl;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -210,6 +213,67 @@ public class AppTest {
         Person2 person5 = applicationContext.getBean("person5", Person2.class);
         System.out.println("constructor: " + person5);
         System.out.println("-----------------------------------------------------------");
+    }
+
+    /**
+     * 测试SpEL表达式
+     */
+    @Test
+    public void testSpEL() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("ioc-14.xml");
+        Person2 person = applicationContext.getBean("person", Person2.class);
+        System.out.println(person);
+    }
+
+    /**
+     * 测试JDK的动态代理
+     */
+    @Test
+    public void testJDKProxy() {
+        CalculateService calculateService = ProxyFactory.getProxy(new CalculateServiceImpl());
+        calculateService.add(1,1);
+        System.out.println("-----------------------------------");
+        calculateService.sub(1,1);
+        System.out.println("-----------------------------------");
+        calculateService.mul(1,1);
+        System.out.println("-----------------------------------");
+        calculateService.div(1,0);
+    }
+
+    /**
+     * 测试Aspectj
+     *  切面：代理类
+     *  连接点：可以被代理的方法
+     *  切入点：真正被代理的方法
+     *  目标对象：被代理类
+     *  通知：代理时的执行内容
+     *      @Before：前置通知，在方法执行前执行
+     *      @After：后置通知，在方法执行后执行
+     *      @AfterThrowing：异常通知，在方法抛出异常后执行
+     *      @AfterReturning：后置返回通知，在方法返回数据前执行
+     *      @Around：环绕通知
+     *
+     *      正常执行(无环绕通知)：
+     *          before -> afterReturning -> after
+     *      异常执行(无环绕通知)：
+     *          before -> afterThrowing -> after
+     *
+     *      正常执行(环绕通知)：
+     *          around before -> before -> afterReturning -> after -> around afterReturning -> around after
+     *      异常执行(环绕通知)：
+     *          around before -> before -> afterThrowing -> after -> around afterThrowing -> around after
+     */
+    @Test
+    public void testAspectj() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ioc-15.xml");
+        CalculateService calculateService = context.getBean("calculateServiceImpl", CalculateService.class);
+        calculateService.add(1, 1);
+        System.out.println("-----------------------------------");
+        calculateService.sub(1,1);
+        System.out.println("-----------------------------------");
+        calculateService.mul(1,1);
+        System.out.println("-----------------------------------");
+        calculateService.div(1,0);
     }
 
 }
