@@ -65,12 +65,12 @@ public class AppTest {
         System.out.println(person2);
 
         // 使用有参构造的方式进行赋值与创建-->忽略name属性，但要保证顺序
-        System.out.println("----------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------\n");
         Person person3 = applicationContext.getBean("person3", Person.class);
         System.out.println(person3);
 
         // 使用有参构造的方式进行赋值与创建-->忽略name属性，不保证属性，可以通过index指定
-        System.out.println("----------------------------------------------------------------");
+        System.out.println("----------------------------------------------------------------\n");
         Person person4 = applicationContext.getBean("person4", Person.class);
         System.out.println(person4);
     }
@@ -196,23 +196,23 @@ public class AppTest {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("ioc-13.xml");
         Person2 person1 = applicationContext.getBean("person1", Person2.class);
         System.out.println("default: " + person1);
-        System.out.println("-----------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------\n");
 
         Person2 person2 = applicationContext.getBean("person2", Person2.class);
         System.out.println("no: " + person2);
-        System.out.println("-----------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------\n");
 
         Person2 person3 = applicationContext.getBean("person3", Person2.class);
         System.out.println("byName: " + person3);
-        System.out.println("-----------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------\n");
 
         Person2 person4 = applicationContext.getBean("person4", Person2.class);
         System.out.println("byType: " + person4);
-        System.out.println("-----------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------\n");
 
         Person2 person5 = applicationContext.getBean("person5", Person2.class);
         System.out.println("constructor: " + person5);
-        System.out.println("-----------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------\n");
     }
 
     /**
@@ -230,13 +230,28 @@ public class AppTest {
      */
     @Test
     public void testJDKProxy() {
-        CalculateService calculateService = ProxyFactory.getProxy(new CalculateServiceImpl());
+        CalculateService calculateService = ProxyFactory.getJDKProxy(new CalculateServiceImpl());
         calculateService.add(1,1);
-        System.out.println("-----------------------------------");
+        System.out.println("-----------------------------------\n");
         calculateService.sub(1,1);
-        System.out.println("-----------------------------------");
+        System.out.println("-----------------------------------\n");
         calculateService.mul(1,1);
-        System.out.println("-----------------------------------");
+        System.out.println("-----------------------------------\n");
+        calculateService.div(1,0);
+    }
+
+    /**
+     * 测试CGLib的动态代理
+     */
+    @Test
+    public void testCgLibProxy() {
+        CalculateService calculateService = ProxyFactory.getCgLibProxy(new CalculateServiceImpl());
+        calculateService.add(1,1);
+        System.out.println("-----------------------------------\n");
+        calculateService.sub(1,1);
+        System.out.println("-----------------------------------\n");
+        calculateService.mul(1,1);
+        System.out.println("-----------------------------------\n");
         calculateService.div(1,0);
     }
 
@@ -262,6 +277,10 @@ public class AppTest {
      *          around before -> before -> afterReturning -> after -> around afterReturning -> around after
      *      异常执行(环绕通知)：
      *          around before -> before -> afterThrowing -> after -> around afterThrowing -> around after
+     *
+     *  底层依赖的是动态代理
+     *      Proxy：基于JDK提供的动态代理类，需要被代理的类实现接口，返回的代理对象与被代理类是兄弟关系
+     *      CGLib：不需要被代理类实现接口，返回的代理对象与被代理类是父子关系
      */
     @Test
     public void testAnnotationAspectj() {

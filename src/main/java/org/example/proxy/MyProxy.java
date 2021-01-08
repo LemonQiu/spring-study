@@ -21,14 +21,14 @@ public class MyProxy<T> implements InvocationHandler {
         Object result = null;
         String methodName = method.getName();
         try {
-            System.out.println(methodName + "执行开始...... args: " + Arrays.toString(args));
+            System.out.println(methodName + " is before by jdk proxy...... args: " + Arrays.toString(args));
             result = method.invoke(t, args);
-            System.out.println(methodName + "执行结束...... result: " + result);
+            System.out.println(methodName + "is afterReturning by jdk proxy...... result: " + result);
         } catch (Exception e) {
-            System.out.println(methodName + "执行异常...... e: " + e.getMessage());
+            System.out.println(methodName + "is afterThrowing by jdk proxy...... e: " + e.getMessage());
             e.printStackTrace();
         } finally {
-            System.out.println(methodName + "执行finally......");
+            System.out.println(methodName + "is after by jdk proxy......");
         }
         return result;
     }
