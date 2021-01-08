@@ -241,7 +241,7 @@ public class AppTest {
     }
 
     /**
-     * 测试Aspectj
+     * 测试Aspectj 注解版
      *  切面：代理类
      *  连接点：可以被代理的方法
      *  切入点：真正被代理的方法
@@ -264,7 +264,7 @@ public class AppTest {
      *          around before -> before -> afterThrowing -> after -> around afterThrowing -> around after
      */
     @Test
-    public void testAspectj() {
+    public void testAnnotationAspectj() {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ioc-15.xml");
         CalculateService calculateService = context.getBean("calculateServiceImpl", CalculateService.class);
         calculateService.add(1, 1);
@@ -276,4 +276,15 @@ public class AppTest {
         calculateService.div(1,0);
     }
 
+    /**
+     * 测试Aspectj xml配置版
+     *
+     * 执行顺序看around和普通的谁放在前面谁就先代理
+     */
+    @Test
+    public void testXmlAspectj() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("ioc-16.xml");
+        CalculateService calculateService = context.getBean("calculateService", CalculateService.class);
+        calculateService.add(1, 1);
+    }
 }
